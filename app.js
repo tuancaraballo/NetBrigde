@@ -40,6 +40,19 @@ app.get('/', function(req, res){
     res.render('index.html', {"yourname": "Modu"});
 });
 
+app.get('/login', function(req, res){
+    res.render('login.html', {"yourname": "Modu"});
+});
+
+app.get('/contactus', function(req, res){
+    res.render('contactus.html', {"yourname": "Modu"});
+});
+
+app.get('/createAccount', function(req, res){
+    res.render('createAccount.html', {"yourname": "Modu"});
+});
+
+
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   var err = new Error('Not Found');
