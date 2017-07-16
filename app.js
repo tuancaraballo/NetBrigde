@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongo = require('mongodb');
+var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -14,6 +15,8 @@ var mustacheExpress = require('mustache-express');
 var app = express();
 
 
+var collection = {"name": "La bestia",
+                  "last": "Tran"}
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000, saveUninitialized: false  }}))
 //app.use('/', index);
 //app.use('/users', users);
 
@@ -44,6 +47,10 @@ app.get('/login', function(req, res){
     res.render('login.html', {"yourname": "Modu"});
 });
 
+app.get('/sendMessage', function(req, res){
+    res.render('sendMessage.html', {"yourname": "Modu"});
+});
+
 app.get('/contactus', function(req, res){
     res.render('contactus.html', {"yourname": "Modu"});
 });
@@ -52,6 +59,71 @@ app.get('/createAccount', function(req, res){
     res.render('createAccount.html', {"yourname": "Modu"});
 });
 
+app.post('/passdata', function(req, res){
+    req.session.mydata = "tochi";
+    res.send(req.body);
+});
+
+//var user = {"name":"", "last":""};
+var listUsers = [];
+//listUsers.push(user);
+
+
+function addUser(name, last, role){
+  listUsers.push({"name": name, "last":last, "role": role});
+}
+
+addUser("pedro", "Gomez", "student");
+addUser("hhh", "ttt", "mentor");
+addUser("dd", "aaa", "mentor");
+
+var listOfMessage = [];
+
+function addMessage(mentor, sender, text){
+  listOfMessage.push({"mentor": mentor, "sender": sender, "text": text});
+}
+
+
+function findUser(name){
+  var myUserFromList = null;
+
+  listUsers.forEach(function(element) {
+    if(element.name == name){
+      myUserFromList = element; 
+    }
+  }, this);
+  return myUserFromList;
+}
+
+app.get('/getList', function(req, res){
+    
+    res.jsonp(listUsers);
+});
+
+app.get('/getUser', function(req, res){
+    var nameParams = req.query.name;
+    console.log(nameParams);
+    var result = findUser(nameParams);
+    res.jsonp(result);
+});
+
+app.get('/mentor/:id', function(req, res){
+    var temp = req.params.id + req.session.mydata;
+    //res.send(req.params);
+    res.send(temp);
+});
+
+// send message to mentor
+app.post('/sendMessage', function(req, res){
+    //req.session.mydata = "tochi";
+    var tempMentor = req.body.mentor;
+    var studentName = req.body.student;
+    var tempText = req.body.text;
+    console.log(tempMentor, studentName, tempText);
+    addMessage(tempMentor, studentName, tempText);
+
+    res.send(`${tempMentor} sent to ${studentName}`);
+});
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -71,4 +143,8 @@ app.get('/createAccount', function(req, res){
 //   res.render('error');
 // });
 
-module.exports = app;
+//module.exports = app;
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+})
