@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var mongo = require('mongodb');
+var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -33,6 +34,7 @@ var database = firebase.database();
 
 
 var app = express();
+
 
 // -> Creates a new acccount in Firebase
 function createNewAccount(username, data, group = "student") {
@@ -69,6 +71,53 @@ function authMiddleware(req, res, next) {
 
 var mentorMap = {};
 
+var collection = {"name": "La bestia",
+                  "last": "Tran"}
+//var user = {"name":"", "last":""};
+var listUsers = [];
+//listUsers.push(user);
+
+
+function addUser(name, last, role){
+  listUsers.push({"name": name, "last":last, "role": role});
+}
+
+addUser("pedro", "Gomez", "student");
+addUser("hhh", "ttt", "mentor");
+addUser("dd", "aaa", "mentor");
+
+var listOfMessage = [];
+
+function addMessage(mentor, sender, text){
+  listOfMessage.push({"mentor": mentor, "sender": sender, "text": text});
+}
+
+addMessage("pedro", "pepe", "Hola pepe como estas");
+addMessage("tomas", "alina", "Hola pepe como estas");
+// find all messages for a mentor
+function findMessage(name){
+  var listPrivateMessage = [];
+
+  listOfMessage.forEach(function(element){
+      if(element.mentor == name){
+        listPrivateMessage.push(element);
+      }
+  }, this);
+    return listPrivateMessage; 
+}
+
+function findUser(name){
+  var myUserFromList = null;
+
+  listUsers.forEach(function(element) {
+    if(element.name == name){
+      myUserFromList = element; 
+    }
+  }, this);
+  return myUserFromList;
+}
+
+
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
@@ -86,7 +135,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000, saveUninitialized: false  }}))
 //app.use('/', index);
 //app.use('/users', users);
 
@@ -95,12 +144,9 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/login', function(req, res) {
-	return res.render('login.html', {"yourname": "Modu"});
-});
-
 app.post('/login', function(req, res){
 
+  // --> Comment this code if you want to turn off firebase
 	var email = _.pick(req.body, 'email')['email'];
 	var password =  _.pick(req.body, 'password')['password'];
 
@@ -120,6 +166,10 @@ app.post('/login', function(req, res){
     //res.render('login.html', {"yourname": "Modu"});
 });
 
+app.get('/sendMessage', function(req, res){
+    res.render('sendMessage.html', {"yourname": "Modu"});
+});
+
 app.get('/contactus', function(req, res){
     res.render('contactus.html', {"yourname": "Modu"});
 });
@@ -137,6 +187,7 @@ app.get('/studentdashboard', function(req, res){
 	res.status(200).send(response);
     // res.render('contactus.html', {"yourname": "Modu"});
 });
+
 
 
 // -> obtains te username from the user's email
@@ -183,26 +234,57 @@ app.post('/newstudent', function(req, res){
 	
 });
 
-
-app.listen(PORT, function() {
-		console.log('Server listering on port ' + PORT + ' ...');
+app.get('/indexFeed', function(req, res){
+    res.render('indexFeed.html', {"yourname": "Modu"});
 });
-// // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
 
-// // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.post('/passdata', function(req, res){
+    req.session.mydata = "tochi";
+    res.send(req.body);
+});
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
 
-//module.exports = app;
+app.get('/getList', function(req, res){
+    
+    res.jsonp(listUsers);
+});
+
+app.get('/getAllMessage', function(req, res){
+    //save username for the session
+    var mentorRequest = req.query.name;
+    var listOfPrivateMessages = findMessage(mentorRequest);
+    res.jsonp(listOfPrivateMessages);
+});
+
+app.get('/getUser', function(req, res){
+    var nameParams = req.query.name;
+    console.log(nameParams);
+    var result = findUser(nameParams);
+    res.jsonp(result);
+});
+
+app.get('/mentor/:id', function(req, res){
+    var temp = req.params.id + req.session.mydata;
+    //res.send(req.params);
+    res.send(temp);
+});
+
+// send message to mentor
+app.post('/sendMessage', function(req, res){
+    //req.session.mydata = "tochi";
+    var tempMentor = req.body.mentor;
+    var studentName = req.body.student;
+    var tempText = req.body.text;
+    console.log(tempMentor, studentName, tempText);
+    addMessage(tempMentor, studentName, tempText);
+
+    res.send(`${tempMentor} sent to ${studentName}`);
+
+});
+
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+});
+
+
+
