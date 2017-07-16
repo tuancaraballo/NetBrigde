@@ -48,6 +48,14 @@ app.get('/login', function(req, res){
     res.render('login.html', {"yourname": "Modu"});
 });
 
+app.get('/index2', function(req, res){
+    res.render('index2.html', {"yourname": "Modu"});
+});
+
+app.get('/netfeed', function(req, res){
+    res.render('netfeed.html', {"yourname": "Modu"});
+});
+
 
 // -> Creates a new acccount in Firebase
 function createNewAccount(username, data, group = "student") {
