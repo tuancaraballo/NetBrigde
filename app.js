@@ -41,7 +41,17 @@ app.get('/signup', function(req, res){
 });
 
 app.get('/profile', function(req, res){
-    res.render('profile.html', {"yourname": "Modu"});
+    var usuario =  {
+            userid: 'tito',
+            name: "Tito",
+            gender: 'straight',
+            ethnicity: "Puerto Rican",
+            company: "Apple",
+            role: "Product Development",
+            description: "I am passionate about international development and poverty alleviation and want to apply my research skills in economics to global challenges.",
+            accomplishments: "Code 2040 Fellow, NASA astrounaut, Nobel Prize in Frizbee",
+          };
+    res.render('profile.html', usuario);
 });
 
 app.get('/login', function(req, res){
@@ -57,10 +67,14 @@ app.get('/netfeed', function(req, res){
 });
 
 
+
 // -> Creates a new acccount in Firebase
 function createNewAccount(username, data, group = "student") {
   firebase.database().ref(group+ '/' + username).set(data);
 }
+
+
+
 
 function authMiddleware(req, res, next) {
 	var user = firebase.auth().currentUser;
@@ -80,30 +94,46 @@ function authMiddleware(req, res, next) {
           {
             
             name: "Gema",
+            ethnicity: "Cuban",
+            email: "abc@gmail.com",
+            gender: 'Agender',
             company: "Salesforce",
             role: "FinTech consultant",
-            description: "Analytical consultant with 10+ years of experience advising clients in management consulting, market research and investment banking. Expertise in applying math and analytics to solve business problems."
+            description: "Analytical consultant with 10+ years of experience advising clients in management consulting, market research and investment banking. Expertise in applying math and analytics to solve business problems.",
+            accomplishments: "Rho Theta Kappa, Olympic Medals twice",
           },
           {
             
             name: "Ricardo",
             company: "Intel",
+            email: "def@gmail.com",
+            gender: 'Androgyne',
+            ethnicity: "Ghanian",
             role: "Data Analitics",
-            description: "From software engineering internships at LinkedIn and Intel, to academic research fellowships and positions at Stanford, MIT, and FBK in Italy, to my current work as Investment Associate Intern at Bridgewater Associates"
+            description: "From software engineering internships at LinkedIn and Intel, to academic research fellowships and positions at Stanford, MIT, and FBK in Italy, to my current work as Investment Associate Intern at Bridgewater Associates",
+             accomplishments: "Boy Scouts Eagle, NSA Medal of Honor",
           },
           {
             
             name: "Alicia",
+            ethnicity: "Dominican",
+            gender: 'queer',
+            email: "geh@gmail.com",
             company: "Facebook",
             role: "Software Engineering",
-            description: "I'm a software engineer. I'm interested in cybersecurity, civic technology, the intersection of design and tech, and user experiences."
+            description: "I'm a software engineer. I'm interested in cybersecurity, civic technology, the intersection of design and tech, and user experiences.",
+            accomplishments: "President Award, PDX University Fellow",
           },
           {
             
             name: "Tito",
+            ethnicity: "Puerto Rican",
+            gender: "Amicagender",
+            email: "ijk@gmail.com",
             company: "Apple",
             role: "Product Development",
-            description: "I am passionate about international development and poverty alleviation and want to apply my research skills in economics to global challenges."
+            description: "I am passionate about international development and poverty alleviation and want to apply my research skills in economics to global challenges.",
+            accomplishments: "Code 2040 Fellow, NASA astrounaut, Nobel Prize in Frizbee",
           },
       ]
   };
