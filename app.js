@@ -58,9 +58,10 @@ app.get('/createAccount', function(req, res){
     res.render('createAccount.html', {"yourname": "Modu"});
 });
 
+var data = {yourname : "Brother"};
 
 app.get('/indexFeed', function(req, res){
-    res.render('indexFeed.html', {"yourname": "Modu"});
+    res.render('indexFeed.html', data);
 });
 
 app.post('/passdata', function(req, res){
