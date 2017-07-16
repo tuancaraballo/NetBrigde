@@ -75,10 +75,41 @@ function authMiddleware(req, res, next) {
 }
 
 
-
+  var data = {
+      users: [
+          {
+            
+            name: "Gema",
+            company: "Salesforce",
+            role: "FinTech consultant",
+            description: "Analytical consultant with 10+ years of experience advising clients in management consulting, market research and investment banking. Expertise in applying math and analytics to solve business problems."
+          },
+          {
+            
+            name: "Ricardo",
+            company: "Intel",
+            role: "Data Analitics",
+            description: "From software engineering internships at LinkedIn and Intel, to academic research fellowships and positions at Stanford, MIT, and FBK in Italy, to my current work as Investment Associate Intern at Bridgewater Associates"
+          },
+          {
+            
+            name: "Alicia",
+            company: "Facebook",
+            role: "Software Engineering",
+            description: "I'm a software engineer. I'm interested in cybersecurity, civic technology, the intersection of design and tech, and user experiences."
+          },
+          {
+            
+            name: "Tito",
+            company: "Apple",
+            role: "Product Development",
+            description: "I am passionate about international development and poverty alleviation and want to apply my research skills in economics to global challenges."
+          },
+      ]
+  };
 
 app.get('/netfeed', function(req, res){
-    res.render('netfeed.html', {"yourname": "Modu"});
+    res.render('netfeed.html', data);
 });
 
 
@@ -95,13 +126,13 @@ var listUsers = [];
 //listUsers.push(user);
 
 
-function addUser(name, last, role){
-  listUsers.push({"name": name, "last":last, "role": role});
+function addUser(name, email, company, ethnicity ,password, age, biography, role){
+  listUsers.push({"name": name, "email": email, "company": company, "ethnicity": ethnicity ,"password": password, "age": age, "biography": biography, "role": role});
 }
 
-addUser("pedro", "Gomez", "student");
-addUser("hhh", "ttt", "mentor");
-addUser("dd", "aaa", "mentor");
+addUser("Pedro", "pedro@gmail.com", "Apple", "Mexico","1111", "40", "Good with iOS", "Mentor");
+//addUser("hhh", "ttt", "mentor");
+//addUser("dd", "aaa", "mentor");
 
 var listOfMessage = [];
 
@@ -251,8 +282,10 @@ app.post('/newstudent', function(req, res){
 	
 });
 
+
+
 app.get('/indexFeed', function(req, res){
-    res.render('indexFeed.html', {"yourname": "Modu"});
+    res.render('indexFeed.html', data);
 });
 
 app.post('/passdata', function(req, res){
@@ -297,6 +330,26 @@ app.post('/sendMessage', function(req, res){
 
     res.send(`${tempMentor} sent to ${studentName}`);
 
+});
+
+app.post('/newuser', function(req, res){
+    req.session.mydata = "tochi";
+    //name, email, company, password, age, biography, role
+
+    var myname = req.body.user_name;
+    var myemail = req.body.user_email;
+    var mycompany = req.body.user_company;
+    var myethnicity = req.body.user_ethnicity;
+    var mypassword = req.body.user_password;
+    var myage = req.body.user_age;
+    var mybiography = req.body.user_bio;
+    var myrole = req.body.user_job;
+    
+    addUser(myname, myemail, mycompany, myethnicity, mypassword, myage, mybiography, myrole);
+    console.log(listUsers);
+    //res.send(req.body.user_job);
+    var myNewData = { users: listUsers};
+    res.render('netfeed.html', myNewData);
 });
 
 app.listen(3000, function () {

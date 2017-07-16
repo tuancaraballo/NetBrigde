@@ -9,7 +9,7 @@
     </head>
     <body>
 
-      <form action="index.html" method="post">
+      <form action="/newuser" method="post">
       
         <h1>Sign Up</h1>
         
@@ -21,12 +21,18 @@
           <label for="mail">Email:</label>
           <input type="email" id="mail" name="user_email">
           
+          <label for="company">Company:</label>
+          <input type="text" id="company" name="user_company">
+
+          <label for="ethnicity">Ethnicity:</label>
+          <input type="text" id="ethnicity" name="user_ethnicity">
+
           <label for="password">Password:</label>
           <input type="password" id="password" name="user_password">
           
           <label>Age:</label>
-          <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 13</label><br>
-          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">13 or older</label>
+          <input type="radio" id="under_13" value="under_13" name="user_age"><label for="under_13" class="light">Under 25</label><br>
+          <input type="radio" id="over_13" value="over_13" name="user_age"><label for="over_13" class="light">26 or older</label>
         </fieldset>
         
         <fieldset>
@@ -55,8 +61,8 @@
             <option value="freelancer">Freelancer</option>
           </optgroup>
           <optgroup label="Other">
-            <option value="secretary">Secretary</option>
-            <option value="maintenance">Maintenance</option>
+            <option value="student">Student</option>
+            <option value="mentor">Mentor</option>
           </optgroup>
         </select>
         
