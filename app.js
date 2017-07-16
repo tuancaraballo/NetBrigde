@@ -70,28 +70,28 @@ function authMiddleware(req, res, next) {
   var data = {
       users: [
           {
-            userid: 'gema',
+            
             name: "Gema",
             company: "Salesforce",
             role: "FinTech consultant",
             description: "Analytical consultant with 10+ years of experience advising clients in management consulting, market research and investment banking. Expertise in applying math and analytics to solve business problems."
           },
           {
-            userid: 'ricardo',
+            
             name: "Ricardo",
             company: "Intel",
             role: "Data Analitics",
             description: "From software engineering internships at LinkedIn and Intel, to academic research fellowships and positions at Stanford, MIT, and FBK in Italy, to my current work as Investment Associate Intern at Bridgewater Associates"
           },
           {
-            userid: 'alicia',
+            
             name: "Alicia",
             company: "Facebook",
             role: "Software Engineering",
             description: "I'm a software engineer. I'm interested in cybersecurity, civic technology, the intersection of design and tech, and user experiences."
           },
           {
-            userid: 'tito',
+            
             name: "Tito",
             company: "Apple",
             role: "Product Development",
@@ -122,7 +122,7 @@ function addUser(name, email, company, ethnicity ,password, age, biography, role
   listUsers.push({"name": name, "email": email, "company": company, "ethnicity": ethnicity ,"password": password, "age": age, "biography": biography, "role": role});
 }
 
-addUser("pedro", "pedro@gmail.com", "Intel", "1111", "40", "Good with iOS", "Student");
+addUser("Pedro", "pedro@gmail.com", "Apple", "Mexico","1111", "40", "Good with iOS", "Mentor");
 //addUser("hhh", "ttt", "mentor");
 //addUser("dd", "aaa", "mentor");
 
@@ -340,7 +340,8 @@ app.post('/newuser', function(req, res){
     addUser(myname, myemail, mycompany, myethnicity, mypassword, myage, mybiography, myrole);
     console.log(listUsers);
     //res.send(req.body.user_job);
-    res.render('/netfeed.html', listUsers);
+    var myNewData = { users: listUsers};
+    res.render('netfeed.html', myNewData);
 });
 
 app.listen(3000, function () {
