@@ -55,17 +55,11 @@ function authMiddleware(req, res, next) {
 
 /* Schema for mentoMap 
 
-   mentorObject = {
-	   name: " ",
-	   email: " ",
-	  password: " ",
-       role: " ",
-     mentees: [ ],
-     gender: " ",
-     age: " ",
-     hometown: " "
-   } 
-*/
+var data = {yourname : "Brother"};
+
+app.get('/indexFeed', function(req, res){
+    res.render('indexFeed.html', data);
+});
 
 
 
