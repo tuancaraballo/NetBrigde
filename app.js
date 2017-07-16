@@ -35,10 +35,46 @@ var database = firebase.database();
 
 var app = express();
 
+var mentorMap = {};
+
+var collection = {"name": "La bestia",
+                  "last": "Tran"}
+//var user = {"name":"", "last":""};
+var listUsers = [];
+
 
 app.get('/signup', function(req, res){
     res.render('signup.html', {"yourname": "Modu"});
 });
+
+// app.post('/signup', function(req, res){
+//     //name, email, company, password, age, biography, role
+
+//     var myname = req.body.user_name;
+//     var myemail = req.body.user_email;
+//     var mycompany = req.body.user_company;
+//     var myethnicity = req.body.user_ethnicity;
+//     var mypassword = req.body.user_password;
+//     var myage = req.body.user_age;
+//     var mybiography = req.body.user_bio;
+//     var myrole = req.body.user_job;
+    
+//     addUser(myname, myemail, mycompany, myethnicity, mypassword, myage, mybiography, myrole);
+//     console.log(listUsers);
+//     //res.send(req.body.user_job);
+//     var myNewData = { users: listUsers};
+
+     
+//      // ---> Adding it to Firebase
+//     var emailJSON = _.pick(req.body, 'user_email');
+//     var username = getUsernameFromEmail(emailJSON['email']);
+//     var userdata = _.pick(req.body, 'user_name', 'user_email', 'user_company', 'user_ethnicity', 'user_password', 'user_age', 'user_bio', 'user_job');  
+//     createNewAccount(username, mentorData, userdata['user_job']);
+
+//     res.render('netfeed.html', myNewData);
+// });
+
+
 
 app.get('/profile', function(req, res){
     var usuario =  {
@@ -55,17 +91,13 @@ app.get('/profile', function(req, res){
 });
 
 app.get('/login', function(req, res){
+
     res.render('login.html', {"yourname": "Modu"});
 });
 
 app.get('/index2', function(req, res){
     res.render('index2.html', {"yourname": "Modu"});
 });
-
-app.get('/netfeed', function(req, res){
-    res.render('netfeed.html', {"yourname": "Modu"});
-});
-
 
 
 // -> Creates a new acccount in Firebase
@@ -147,12 +179,7 @@ app.get('/netfeed', function(req, res){
 
 
 
-var mentorMap = {};
 
-var collection = {"name": "La bestia",
-                  "last": "Tran"}
-//var user = {"name":"", "last":""};
-var listUsers = [];
 //listUsers.push(user);
 
 
@@ -230,7 +257,7 @@ app.post('/login', function(req, res){
 
 	firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
 	
-		return res.redirect('/studentdashboard');
+		return res.redirect('/netfeed');
 	
 	}).catch(function(error) {
   		// Handle Errors here.
@@ -379,10 +406,30 @@ app.post('/newuser', function(req, res){
     console.log(listUsers);
     //res.send(req.body.user_job);
     var myNewData = { users: listUsers};
-    res.render('netfeed.html', myNewData);
+
+    var email = _.pick(req.body, 'user_email')['user_email'];
+    var password = _.pick(req.body, 'user_password')['user_password'];
+
+    var username = getUsernameFromEmail(email);
+    console.log('-------- ')
+    var userdata = _.pick(req.body, 'user_name', 'user_email', 'user_company', 'user_ethnicity', 'user_password', 'user_age', 'user_bio', 'user_job');  
+    createNewAccount(username, userdata, userdata['user_job']);
+
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function(){
+      return res.render('netfeed.html', myNewData);
+    }
+    ).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      return res.status(404).send(errorMessage);
+    });
+
+    
 });
 
-app.listen(3000, function () {
+app.listen(PORT, function () {
   console.log('Example app listening on port 3000!')
 });
 
