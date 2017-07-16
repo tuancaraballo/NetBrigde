@@ -36,6 +36,19 @@ var database = firebase.database();
 var app = express();
 
 
+app.get('/signup', function(req, res){
+    res.render('signup.html', {"yourname": "Modu"});
+});
+
+app.get('/profile', function(req, res){
+    res.render('profile.html', {"yourname": "Modu"});
+});
+
+app.get('/login', function(req, res){
+    res.render('login.html', {"yourname": "Modu"});
+});
+
+
 // -> Creates a new acccount in Firebase
 function createNewAccount(username, data, group = "student") {
   firebase.database().ref(group+ '/' + username).set(data);
@@ -53,13 +66,15 @@ function authMiddleware(req, res, next) {
 	}
 }
 
-/* Schema for mentoMap 
 
-var data = {yourname : "Brother"};
 
-app.get('/indexFeed', function(req, res){
-    res.render('indexFeed.html', data);
+
+app.get('/netfeed', function(req, res){
+    res.render('netfeed.html', {"yourname": "Modu"});
 });
+
+
+
 
 
 
