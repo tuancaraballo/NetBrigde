@@ -67,10 +67,41 @@ function authMiddleware(req, res, next) {
 }
 
 
-
+  var data = {
+      users: [
+          {
+            userid: 'gema',
+            name: "Gema",
+            company: "Salesforce",
+            role: "FinTech consultant",
+            description: "Analytical consultant with 10+ years of experience advising clients in management consulting, market research and investment banking. Expertise in applying math and analytics to solve business problems."
+          },
+          {
+            userid: 'ricardo',
+            name: "Ricardo",
+            company: "Intel",
+            role: "Data Analitics",
+            description: "From software engineering internships at LinkedIn and Intel, to academic research fellowships and positions at Stanford, MIT, and FBK in Italy, to my current work as Investment Associate Intern at Bridgewater Associates"
+          },
+          {
+            userid: 'alicia',
+            name: "Alicia",
+            company: "Facebook",
+            role: "Software Engineering",
+            description: "I'm a software engineer. I'm interested in cybersecurity, civic technology, the intersection of design and tech, and user experiences."
+          },
+          {
+            userid: 'tito',
+            name: "Tito",
+            company: "Apple",
+            role: "Product Development",
+            description: "I am passionate about international development and poverty alleviation and want to apply my research skills in economics to global challenges."
+          },
+      ]
+  };
 
 app.get('/netfeed', function(req, res){
-    res.render('netfeed.html', {"yourname": "Modu"});
+    res.render('netfeed.html', data);
 });
 
 
@@ -243,8 +274,10 @@ app.post('/newstudent', function(req, res){
 	
 });
 
+
+
 app.get('/indexFeed', function(req, res){
-    res.render('indexFeed.html', {"yourname": "Modu"});
+    res.render('indexFeed.html', data);
 });
 
 app.post('/passdata', function(req, res){
