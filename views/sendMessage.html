@@ -24,16 +24,16 @@
 
 <body>
     <div class="contact-clean">
-        <form action="/passdata" method="post">
+        <form action="/sendMessage" method="post">
             <h2 class="text-center">Contact us</h2>
             <div class="form-group has-success has-feedback">
-                <input class="form-control" type="text" name="name" placeholder="Name"><i class="form-control-feedback glyphicon glyphicon-ok" aria-hidden="true"></i></div>
+                <input class="form-control" type="text" name="mentor" placeholder="Name"><i class="form-control-feedback glyphicon glyphicon-ok" aria-hidden="true"></i></div>
             <div class="form-group has-error has-feedback">
-                <input class="form-control" type="email" name="email" placeholder="Email"><i class="form-control-feedback glyphicon glyphicon-remove" aria-hidden="true"></i>
+                <input class="form-control" type="text" name="student" placeholder="Student"><i class="form-control-feedback glyphicon glyphicon-remove" aria-hidden="true"></i>
                 <p class="help-block">Please enter a correct email address.</p>
             </div>
             <div class="form-group">
-                <textarea class="form-control" rows="14" name="message" placeholder="Message"></textarea>
+                <textarea class="form-control" rows="14" name="text" placeholder="Message"></textarea>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">send </button>
