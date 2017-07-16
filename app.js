@@ -52,6 +52,9 @@ app.get('/createAccount', function(req, res){
     res.render('createAccount.html', {"yourname": "Modu"});
 });
 
+app.get('/indexFeed', function(req, res){
+    res.render('indexFeed.html', {"yourname": "Modu"});
+});
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -70,5 +73,6 @@ app.get('/createAccount', function(req, res){
 //   res.status(err.status || 500);
 //   res.render('error');
 // });
-
-module.exports = app;
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+});
