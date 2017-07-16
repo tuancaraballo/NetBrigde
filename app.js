@@ -14,7 +14,6 @@ var mustacheExpress = require('mustache-express');
 
 var app = express();
 
-
 var collection = {"name": "La bestia",
                   "last": "Tran"}
 
