@@ -183,11 +183,12 @@ app.get('/netfeed', function(req, res){
 //listUsers.push(user);
 
 
-function addUser(name, email, company, ethnicity ,password, age, biography, role){
-  listUsers.push({"name": name, "email": email, "company": company, "ethnicity": ethnicity ,"password": password, "age": age, "biography": biography, "role": role});
+function addUser(name, email, company, ethnicity ,password, age, biography, role, urlphoto){
+  var id = listUsers.length;
+  listUsers.push({"id": id, "name": name, "email": email, "company": company, "ethnicity": ethnicity ,"password": password, "age": age, "biography": biography, "role": role, "urlphoto": urlphoto});
 }
 
-addUser("Pedro", "pedro@gmail.com", "Apple", "Mexico","1111", "40", "Good with iOS", "Mentor");
+addUser("Pedro", "pedro@gmail.com", "Apple", "Mexico","1111", "40", "Good with iOS", "Mentor","/assets/img/img2.jpg");
 //addUser("hhh", "ttt", "mentor");
 //addUser("dd", "aaa", "mentor");
 
@@ -215,7 +216,7 @@ function findUser(name){
   var myUserFromList = null;
 
   listUsers.forEach(function(element) {
-    if(element.name == name){
+    if(element.id == name){
       myUserFromList = element; 
     }
   }, this);
@@ -371,9 +372,17 @@ app.get('/getUser', function(req, res){
 });
 
 app.get('/mentor/:id', function(req, res){
-    var temp = req.params.id + req.session.mydata;
+    var myId = Number(req.params.id);
+    if(typeof(myId) == 'number'){
+      console.log('It is a number');
+    }else{
+      console.log('Not a number');
+    }
+
+    var resultTemp = findUser(myId);
+    console.log(resultTemp);
     //res.send(req.params);
-    res.send(temp);
+    res.render('profile.html', resultTemp);
 });
 
 // send message to mentor
