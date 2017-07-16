@@ -87,6 +87,19 @@ function addMessage(mentor, sender, text){
   listOfMessage.push({"mentor": mentor, "sender": sender, "text": text});
 }
 
+addMessage("pedro", "pepe", "Hola pepe como estas");
+addMessage("tomas", "alina", "Hola pepe como estas");
+// find all messages for a mentor
+function findMessage(name){
+  var listPrivateMessage = [];
+
+  listOfMessage.forEach(function(element){
+      if(element.mentor == name){
+        listPrivateMessage.push(element);
+      }
+  }, this);
+    return listPrivateMessage; 
+}
 
 function findUser(name){
   var myUserFromList = null;
@@ -102,6 +115,13 @@ function findUser(name){
 app.get('/getList', function(req, res){
     
     res.jsonp(listUsers);
+});
+
+app.get('/getAllMessage', function(req, res){
+    //save username for the session
+    var mentorRequest = req.query.name;
+    var listOfPrivateMessages = findMessage(mentorRequest);
+    res.jsonp(listOfPrivateMessages);
 });
 
 app.get('/getUser', function(req, res){
