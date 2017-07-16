@@ -42,6 +42,14 @@ app.get('/', function(req, res){
     res.render('index.html', {"yourname": "Modu"});
 });
 
+app.get('/signup', function(req, res){
+    res.render('signup.html', {"yourname": "Modu"});
+});
+
+app.get('/profile', function(req, res){
+    res.render('profile.html', {"yourname": "Modu"});
+});
+
 app.get('/login', function(req, res){
     res.render('login.html', {"yourname": "Modu"});
 });
@@ -58,9 +66,12 @@ app.get('/createAccount', function(req, res){
     res.render('createAccount.html', {"yourname": "Modu"});
 });
 
+app.get('/netfeed', function(req, res){
+    res.render('netfeed.html', {"yourname": "Modu"});
+});
 
-app.get('/indexFeed', function(req, res){
-    res.render('indexFeed.html', {"yourname": "Modu"});
+app.get('/netfeed2', function(req, res){
+    res.render('netfeed2.html', {"yourname": "Modu"});
 });
 
 app.post('/passdata', function(req, res){
