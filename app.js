@@ -118,13 +118,13 @@ var listUsers = [];
 //listUsers.push(user);
 
 
-function addUser(name, last, role){
-  listUsers.push({"name": name, "last":last, "role": role});
+function addUser(name, email, company, ethnicity ,password, age, biography, role){
+  listUsers.push({"name": name, "email": email, "company": company, "ethnicity": ethnicity ,"password": password, "age": age, "biography": biography, "role": role});
 }
 
-addUser("pedro", "Gomez", "student");
-addUser("hhh", "ttt", "mentor");
-addUser("dd", "aaa", "mentor");
+addUser("pedro", "pedro@gmail.com", "Intel", "1111", "40", "Good with iOS", "Student");
+//addUser("hhh", "ttt", "mentor");
+//addUser("dd", "aaa", "mentor");
 
 var listOfMessage = [];
 
@@ -322,6 +322,25 @@ app.post('/sendMessage', function(req, res){
 
     res.send(`${tempMentor} sent to ${studentName}`);
 
+});
+
+app.post('/newuser', function(req, res){
+    req.session.mydata = "tochi";
+    //name, email, company, password, age, biography, role
+
+    var myname = req.body.user_name;
+    var myemail = req.body.user_email;
+    var mycompany = req.body.user_company;
+    var myethnicity = req.body.user_ethnicity;
+    var mypassword = req.body.user_password;
+    var myage = req.body.user_age;
+    var mybiography = req.body.user_bio;
+    var myrole = req.body.user_job;
+    
+    addUser(myname, myemail, mycompany, myethnicity, mypassword, myage, mybiography, myrole);
+    console.log(listUsers);
+    //res.send(req.body.user_job);
+    res.render('/netfeed.html', listUsers);
 });
 
 app.listen(3000, function () {
