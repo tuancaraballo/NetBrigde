@@ -29,11 +29,27 @@ a {
 
 img {
   max-width: 100%;
+  image-orientation: from-image;
+}
 }
 
 h1, h2 {
   font-family: "Open Sans", sans-serif;
   font-weight: bold;
+}
+
+/* -------------------------------
+
+Rotate images 90 degrees
+
+-------------------------------- */
+
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 /* -------------------------------- 
