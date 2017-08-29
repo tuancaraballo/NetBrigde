@@ -1,10 +1,15 @@
 {
-  "name": "ncg",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {},
+  "name": "NetBridge",
+  "version": "1.0.0",
+  "description": "NetBridgePlatform",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "CODE2040",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "~1.17.1",
+   "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
@@ -19,5 +24,7 @@
     "mustache-express": "^1.2.5",
     "serve-favicon": "~2.4.2",
     "underscore": "^1.8.3"
-  }
+  },
+  "devDependencies": {}
 }
+
